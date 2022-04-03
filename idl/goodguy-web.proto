@@ -1,0 +1,143 @@
+syntax = "proto3";
+
+option go_package = "github.com/goodguy-project/goodguy-core/idl";
+
+enum Op {
+  Op_Nothing = 0;
+  Op_Update = 1;
+  Op_Delete = 2;
+  Op_Add = 3;
+}
+
+enum Bool {
+  Bool_Undefined = 0;
+  Bool_True = 1;
+  Bool_False = 2;
+}
+
+message EmailConf {
+  string email = 1;
+  string smtp_host = 2;
+  int32 smtp_port = 3;
+  string pwd = 4;
+  Op op = 5;
+}
+
+// 队员信息
+message Member {
+  int64 id = 1;
+  string sid = 2;
+  string name = 3; // 姓名
+  string school = 4; // 学校
+  int32 grade = 6; // 年级
+  string clazz = 7; // 班级
+  bool is_official = 9; // 是否校队成员
+
+  string codeforces_id = 20; // Codeforces ID
+  string atcoder_id = 21; // AtCoder ID
+  string codechef_id = 22; // Codechef ID
+  string nowcoder_id = 23; // Nowcoder ID（纯数字）
+  string vjudge_id = 24; // Vjudge ID
+  string leetcode_id = 25; // LeetCode ID
+  string luogu_id = 26; // Luogu ID
+
+  Bool is_subscribe = 27; // required 是否邮件订阅
+
+  string email = 30;
+}
+
+message GetOfficialMemberRequest {}
+
+message Team {
+  int64 id = 1; // ID
+  repeated Member member = 2; // 成员
+  string name = 3; // 队名
+}
+
+message GetOfficialMemberResponse {
+  repeated Team team = 1;
+}
+
+message GetMemberRequest {
+  int32 page_no = 1;
+  int32 page_size = 2;
+
+  repeated int64 id = 4;
+  repeated string sid = 5;
+}
+
+message GetMemberResponse {
+  repeated Member member = 1;
+  int32 size = 2;
+}
+
+message LoginRequest {
+  string sid = 1;
+  string pwd = 2;
+}
+
+message LoginResponse {
+  string token = 1;
+}
+
+message RegisterRequest {
+  Member member = 1;
+  string pwd = 2;
+}
+
+message RegisterResponse {
+  string token = 1;
+}
+
+message UpdateMemberRequest {
+  Member member = 1;
+}
+
+message UpdateMemberResponse {
+}
+
+message CheckTokenRequest {
+  string token = 1;
+}
+
+message CheckTokenResponse {
+  bool ok = 1;
+  string sid = 2;
+}
+
+message AdminSetRequest {
+  repeated EmailConf email_conf = 1;
+
+  Bool open_register = 2;
+}
+
+message AdminSetResponse {
+}
+
+message AdminGetRequest {
+}
+
+message AdminGetResponse {
+  repeated EmailConf email_conf = 1;
+}
+
+message CommonGetRequest {
+}
+
+message CommonGetResponse {
+  bool open_register = 1; // 是否开放注册
+}
+
+service GoodguyWebService {
+  rpc GetOfficialMember (GetOfficialMemberRequest) returns (GetOfficialMemberResponse); // 获取所有校队成员
+  rpc GetMember (GetMemberRequest) returns (GetMemberResponse); // 获取成员
+
+  rpc CheckToken (CheckTokenRequest) returns (CheckTokenResponse); // 检查token是否可用
+  rpc Login (LoginRequest) returns (LoginResponse);
+  rpc Register (RegisterRequest) returns (RegisterResponse);
+  rpc UpdateMember (UpdateMemberRequest) returns (UpdateMemberResponse);
+
+  rpc AdminSet (AdminSetRequest) returns (AdminSetResponse);
+  rpc AdminGet (AdminGetRequest) returns (AdminGetResponse);
+  rpc CommonGet (CommonGetRequest) returns (CommonGetResponse);
+}

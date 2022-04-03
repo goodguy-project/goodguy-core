@@ -1,0 +1,7 @@
+web:
+  host: localhost
+  port: 9887 # 端口建议不要改动 改动后需要同时修改envoy.yaml
+
+admin:
+  pwd: 'admin'
+  open_register: true
