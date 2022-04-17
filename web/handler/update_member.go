@@ -32,43 +32,17 @@ func UpdateMember(ctx context.Context, req *idl.UpdateMemberRequest) (*idl.Updat
 }
 
 func doUpdateMember(reqMember *idl.Member, member *model.Member) {
-	if reqMember.Name != "" {
-		member.Name = reqMember.Name
-	}
-	if reqMember.School != "" {
-		member.School = reqMember.School
-	}
-	if reqMember.Grade != 0 {
-		member.Grade = reqMember.Grade
-	}
-	if reqMember.Clazz != "" {
-		member.Clazz = reqMember.Clazz
-	}
-	if reqMember.CodeforcesId != "" {
-		member.CodeforcesId = reqMember.CodeforcesId
-	}
-	if reqMember.AtcoderId != "" {
-		member.AtcoderId = reqMember.AtcoderId
-	}
-	if reqMember.CodechefId != "" {
-		member.CodechefId = reqMember.CodechefId
-	}
-	if reqMember.NowcoderId != "" {
-		member.NowcoderId = reqMember.NowcoderId
-	}
-	if reqMember.VjudgeId != "" {
-		member.VjudgeId = reqMember.VjudgeId
-	}
-	if reqMember.LeetcodeId != "" {
-		member.LeetcodeId = reqMember.LeetcodeId
-	}
-	if reqMember.LuoguId != "" {
-		member.LuoguId = reqMember.LuoguId
-	}
-	if reqMember.Email != "" {
-		member.Email = reqMember.Email
-	}
-	if reqMember.IsSubscribe != idl.Bool_Bool_Undefined {
-		member.IsSubscribe = reqMember.IsSubscribe == idl.Bool_Bool_True
-	}
+	member.Name = reqMember.Name
+	member.School = reqMember.School
+	member.Grade = reqMember.Grade
+	member.Clazz = reqMember.Clazz
+	member.CodeforcesId = reqMember.CodeforcesId
+	member.AtcoderId = reqMember.AtcoderId
+	member.CodechefId = reqMember.CodechefId
+	member.NowcoderId = reqMember.NowcoderId
+	member.VjudgeId = reqMember.VjudgeId
+	member.LeetcodeId = reqMember.LeetcodeId
+	member.LuoguId = reqMember.LuoguId
+	member.Email = reqMember.Email
+	member.IsSubscribe = reqMember.IsSubscribe == idl.Bool_Bool_True
 }

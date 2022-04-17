@@ -5,9 +5,12 @@ import (
 	"encoding/json"
 
 	"github.com/spf13/viper"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 
 	"github.com/goodguy-project/goodguy-core/idl"
 	"github.com/goodguy-project/goodguy-core/util"
+	"github.com/goodguy-project/goodguy-core/web/token"
 )
 
 func doEmailConf(emailConf []*idl.EmailConf) error {
@@ -37,11 +40,15 @@ func doEmailConf(emailConf []*idl.EmailConf) error {
 			}
 		}
 	}
-	viper.Set(util.EmailConfigName, util.JsonToString(d))
+	viper.Set(util.EmailConfigName, util.Json(d))
 	return nil
 }
 
 func AdminSet(ctx context.Context, req *idl.AdminSetRequest) (*idl.AdminSetResponse, error) {
+	sid, ok := token.Auth(ctx)
+	if !ok || sid != "admin" {
+		return new(idl.AdminSetResponse), status.Error(codes.Unauthenticated, "auth failed")
+	}
 	if len(req.EmailConf) > 0 {
 		if err := doEmailConf(req.EmailConf); err != nil {
 			return new(idl.AdminSetResponse), err
@@ -54,6 +61,10 @@ func AdminSet(ctx context.Context, req *idl.AdminSetRequest) (*idl.AdminSetRespo
 }
 
 func AdminGet(ctx context.Context, req *idl.AdminGetRequest) (*idl.AdminGetResponse, error) {
+	sid, ok := token.Auth(ctx)
+	if !ok || sid != "admin" {
+		return new(idl.AdminGetResponse), status.Error(codes.Unauthenticated, "auth failed")
+	}
 	var err error
 	resp := new(idl.AdminGetResponse)
 	emailConf := viper.GetString(util.EmailConfigName)

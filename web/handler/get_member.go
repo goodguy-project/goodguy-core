@@ -24,7 +24,7 @@ func GetMember(ctx context.Context, req *idl.GetMemberRequest) (*idl.GetMemberRe
 	if len(req.Sid) > 0 {
 		db = db.Where("sid IN ?", req.Sid)
 	}
-	var members []model.Member
+	var members []*model.Member
 	db.Order("id desc").Offset(int(pageSize * (pageNo - 1))).Limit(int(pageSize)).Find(&members)
 	for _, member := range members {
 		response.Member = append(response.Member, member.ToProtoMember())

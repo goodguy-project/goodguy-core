@@ -1,7 +1,14 @@
+admin:
+  email: admin.email
+  open_register: true
+  pwd: admin
+client:
+  crawler:
+    host: localhost
+    port: 9851
+debug: true
+statistics:
+  buffer: 100
 web:
   host: localhost
-  port: 9887 # 端口建议不要改动 改动后需要同时修改envoy.yaml
-
-admin:
-  pwd: 'admin'
-  open_register: true
+  port: 9887
