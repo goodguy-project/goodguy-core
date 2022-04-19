@@ -2,6 +2,17 @@ syntax = "proto3";
 
 option go_package = "github.com/goodguy-project/goodguy-core/idl";
 
+enum OnlineJudge {
+  OnlineJudge_Undefined = 0;
+  OnlineJudge_Codeforces = 1;
+  OnlineJudge_Atcoder = 2;
+  OnlineJudge_Codechef = 3;
+  OnlineJudge_Nowcoder = 4;
+  OnlineJudge_Leetcode = 5;
+  OnlineJudge_Luogu = 6;
+  OnlineJudge_Vjudge = 7;
+}
+
 enum Op {
   Op_Nothing = 0;
   Op_Update = 1;

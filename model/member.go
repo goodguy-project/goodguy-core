@@ -25,6 +25,7 @@ type Member struct {
 	IsSubscribe  bool   `gorm:"index:member_is_subscribe_index"`
 	IsAdmin      bool
 	Pwd          string
+	SubscribeBit int64 // TODO
 }
 
 func (m *Member) ToProtoMember() *idl.Member {

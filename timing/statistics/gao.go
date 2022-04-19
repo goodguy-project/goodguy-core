@@ -49,25 +49,25 @@ func doContestCrawl(ctx context.Context, members []*model.Member) error {
 	for _, member := range members {
 		if member.CodeforcesId != "" {
 			request.GetUserContestRecordRequest = append(request.GetUserContestRecordRequest, &idl.GetUserContestRecordRequest{
-				Platform: util.Codeforces,
+				Platform: util.Codeforces.Name(),
 				Handle:   member.CodeforcesId,
 			})
 		}
 		if member.AtcoderId != "" {
 			request.GetUserContestRecordRequest = append(request.GetUserContestRecordRequest, &idl.GetUserContestRecordRequest{
-				Platform: util.Atcoder,
+				Platform: util.Atcoder.Name(),
 				Handle:   member.AtcoderId,
 			})
 		}
 		if member.NowcoderId != "" {
 			request.GetUserContestRecordRequest = append(request.GetUserContestRecordRequest, &idl.GetUserContestRecordRequest{
-				Platform: util.Nowcoder,
+				Platform: util.Nowcoder.Name(),
 				Handle:   member.NowcoderId,
 			})
 		}
 		if member.LeetcodeId != "" {
 			request.GetUserContestRecordRequest = append(request.GetUserContestRecordRequest, &idl.GetUserContestRecordRequest{
-				Platform: util.Leetcode,
+				Platform: util.Leetcode.Name(),
 				Handle:   member.LeetcodeId,
 			})
 		}
@@ -87,10 +87,10 @@ func doContestCrawl(ctx context.Context, members []*model.Member) error {
 		m[r.Handle] = r
 	}
 	for _, member := range members {
-		handle(member.Sid, util.Codeforces, member.CodeforcesId, t)
-		handle(member.Sid, util.Atcoder, member.AtcoderId, t)
-		handle(member.Sid, util.Nowcoder, member.NowcoderId, t)
-		handle(member.Sid, util.Leetcode, member.LeetcodeId, t)
+		handle(member.Sid, util.Codeforces.Name(), member.CodeforcesId, t)
+		handle(member.Sid, util.Atcoder.Name(), member.AtcoderId, t)
+		handle(member.Sid, util.Nowcoder.Name(), member.NowcoderId, t)
+		handle(member.Sid, util.Leetcode.Name(), member.LeetcodeId, t)
 	}
 	return nil
 }
