@@ -1,6 +1,7 @@
 package model
 
 import (
+	"google.golang.org/protobuf/types/known/wrapperspb"
 	"gorm.io/gorm"
 
 	"github.com/goodguy-project/goodguy-core/idl"
@@ -31,25 +32,21 @@ type Member struct {
 func (m *Member) ToProtoMember() *idl.Member {
 	r := &idl.Member{
 		Id:           int64(m.ID),
-		Sid:          m.Sid,
-		Name:         m.Name,
-		School:       m.School,
-		Grade:        m.Grade,
-		Clazz:        m.Clazz,
-		IsOfficial:   m.IsOfficial,
-		CodeforcesId: m.CodeforcesId,
-		AtcoderId:    m.AtcoderId,
-		CodechefId:   m.CodechefId,
-		NowcoderId:   m.NowcoderId,
-		VjudgeId:     m.VjudgeId,
-		LeetcodeId:   m.LeetcodeId,
-		LuoguId:      m.LuoguId,
-		Email:        m.Email,
-	}
-	if m.IsSubscribe {
-		r.IsSubscribe = idl.Bool_Bool_True
-	} else {
-		r.IsSubscribe = idl.Bool_Bool_False
+		Sid:          wrapperspb.String(m.Sid),
+		Name:         wrapperspb.String(m.Name),
+		School:       wrapperspb.String(m.School),
+		Grade:        wrapperspb.Int32(m.Grade),
+		Clazz:        wrapperspb.String(m.Clazz),
+		IsOfficial:   wrapperspb.Bool(m.IsOfficial),
+		CodeforcesId: wrapperspb.String(m.CodeforcesId),
+		AtcoderId:    wrapperspb.String(m.AtcoderId),
+		CodechefId:   wrapperspb.String(m.CodechefId),
+		NowcoderId:   wrapperspb.String(m.NowcoderId),
+		VjudgeId:     wrapperspb.String(m.VjudgeId),
+		LeetcodeId:   wrapperspb.String(m.LeetcodeId),
+		LuoguId:      wrapperspb.String(m.LuoguId),
+		Email:        wrapperspb.String(m.Email),
+		IsSubscribe:  wrapperspb.Bool(m.IsSubscribe),
 	}
 	return r
 }

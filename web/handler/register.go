@@ -26,10 +26,10 @@ func Register(ctx context.Context, req *idl.RegisterRequest) (resp *idl.Register
 	if req.Member == nil {
 		return nil, status.Error(codes.DataLoss, "member is empty")
 	}
-	if req.GetMember().Sid == "" {
+	if req.GetMember().GetSid().GetValue() == "" {
 		return nil, status.Error(codes.DataLoss, "sid is empty")
 	}
-	if len(req.GetMember().Sid) > 50 {
+	if len(req.GetMember().GetSid().GetValue()) > 50 {
 		return nil, status.Error(codes.Unavailable, fmt.Sprintf("sid %s is too long", req.GetMember().Sid))
 	}
 	if req.Pwd == "" {
@@ -37,20 +37,20 @@ func Register(ctx context.Context, req *idl.RegisterRequest) (resp *idl.Register
 	}
 	member := req.GetMember()
 	err = model.GetDB().Create(&model.Member{
-		Sid:          member.Sid,
-		Name:         member.Name,
-		School:       member.School,
-		Grade:        member.Grade,
-		Clazz:        member.Clazz,
+		Sid:          member.GetSid().GetValue(),
+		Name:         member.GetName().GetValue(),
+		School:       member.GetSchool().GetValue(),
+		Grade:        member.GetGrade().GetValue(),
+		Clazz:        member.GetClazz().GetValue(),
 		IsOfficial:   false,
-		CodeforcesId: member.CodeforcesId,
-		AtcoderId:    member.AtcoderId,
-		CodechefId:   member.CodechefId,
-		NowcoderId:   member.NowcoderId,
-		VjudgeId:     member.VjudgeId,
-		LeetcodeId:   member.LeetcodeId,
-		LuoguId:      member.LuoguId,
-		Email:        member.Email,
+		CodeforcesId: member.GetCodeforcesId().GetValue(),
+		AtcoderId:    member.GetAtcoderId().GetValue(),
+		CodechefId:   member.GetCodechefId().GetValue(),
+		NowcoderId:   member.GetNowcoderId().GetValue(),
+		VjudgeId:     member.GetVjudgeId().GetValue(),
+		LeetcodeId:   member.GetLeetcodeId().GetValue(),
+		LuoguId:      member.GetLuoguId().GetValue(),
+		Email:        member.GetEmail().GetValue(),
 		IsSubscribe:  false,
 		IsAdmin:      false,
 		Pwd:          util.Hashing(req.Pwd),
@@ -58,5 +58,5 @@ func Register(ctx context.Context, req *idl.RegisterRequest) (resp *idl.Register
 	if err != nil {
 		return nil, status.Error(codes.Unavailable, fmt.Sprintf("sid %s exists", req.GetMember().Sid))
 	}
-	return &idl.RegisterResponse{Token: token.SetMemberSid(member.Sid)}, nil
+	return &idl.RegisterResponse{Token: token.SetMemberSid(member.GetSid().GetValue())}, nil
 }

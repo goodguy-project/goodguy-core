@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+import "google/protobuf/wrappers.proto";
+
 option go_package = "github.com/goodguy-project/goodguy-core/idl";
 
 enum OnlineJudge {
@@ -20,12 +22,6 @@ enum Op {
   Op_Add = 3;
 }
 
-enum Bool {
-  Bool_Undefined = 0;
-  Bool_True = 1;
-  Bool_False = 2;
-}
-
 message EmailConf {
   string email = 1;
   string smtp_host = 2;
@@ -37,24 +33,24 @@ message EmailConf {
 // 队员信息
 message Member {
   int64 id = 1;
-  string sid = 2;
-  string name = 3; // 姓名
-  string school = 4; // 学校
-  int32 grade = 6; // 年级
-  string clazz = 7; // 班级
-  bool is_official = 9; // 是否校队成员
+  google.protobuf.StringValue sid = 2;
+  google.protobuf.StringValue name = 3; // 姓名
+  google.protobuf.StringValue school = 4; // 学校
+  google.protobuf.Int32Value grade = 6; // 年级
+  google.protobuf.StringValue clazz = 7; // 班级
+  google.protobuf.BoolValue is_official = 9; // 是否校队成员
 
-  string codeforces_id = 20; // Codeforces ID
-  string atcoder_id = 21; // AtCoder ID
-  string codechef_id = 22; // Codechef ID
-  string nowcoder_id = 23; // Nowcoder ID（纯数字）
-  string vjudge_id = 24; // Vjudge ID
-  string leetcode_id = 25; // LeetCode ID
-  string luogu_id = 26; // Luogu ID
+  google.protobuf.StringValue codeforces_id = 20; // Codeforces ID
+  google.protobuf.StringValue atcoder_id = 21; // AtCoder ID
+  google.protobuf.StringValue codechef_id = 22; // Codechef ID
+  google.protobuf.StringValue nowcoder_id = 23; // Nowcoder ID（纯数字）
+  google.protobuf.StringValue vjudge_id = 24; // Vjudge ID
+  google.protobuf.StringValue leetcode_id = 25; // LeetCode ID
+  google.protobuf.StringValue luogu_id = 26; // Luogu ID
 
-  Bool is_subscribe = 27; // required 是否邮件订阅
+  google.protobuf.BoolValue is_subscribe = 27; // required 是否邮件订阅
 
-  string email = 30;
+  google.protobuf.StringValue email = 30;
 }
 
 message GetOfficialMemberRequest {}
@@ -119,7 +115,7 @@ message CheckTokenResponse {
 message AdminSetRequest {
   repeated EmailConf email_conf = 1;
 
-  Bool open_register = 2;
+  google.protobuf.StringValue open_register = 2;
 }
 
 message AdminSetResponse {

@@ -32,17 +32,43 @@ func UpdateMember(ctx context.Context, req *idl.UpdateMemberRequest) (*idl.Updat
 }
 
 func doUpdateMember(reqMember *idl.Member, member *model.Member) {
-	member.Name = reqMember.Name
-	member.School = reqMember.School
-	member.Grade = reqMember.Grade
-	member.Clazz = reqMember.Clazz
-	member.CodeforcesId = reqMember.CodeforcesId
-	member.AtcoderId = reqMember.AtcoderId
-	member.CodechefId = reqMember.CodechefId
-	member.NowcoderId = reqMember.NowcoderId
-	member.VjudgeId = reqMember.VjudgeId
-	member.LeetcodeId = reqMember.LeetcodeId
-	member.LuoguId = reqMember.LuoguId
-	member.Email = reqMember.Email
-	member.IsSubscribe = reqMember.IsSubscribe == idl.Bool_Bool_True
+	if reqMember.Name != nil {
+		member.Name = reqMember.Name.GetValue()
+	}
+	if reqMember.School != nil {
+		member.School = reqMember.School.GetValue()
+	}
+	if reqMember.Grade != nil {
+		member.Grade = reqMember.Grade.GetValue()
+	}
+	if reqMember.Clazz != nil {
+		member.Clazz = reqMember.Clazz.GetValue()
+	}
+	if reqMember.CodeforcesId != nil {
+		member.CodeforcesId = reqMember.CodeforcesId.GetValue()
+	}
+	if reqMember.AtcoderId != nil {
+		member.AtcoderId = reqMember.AtcoderId.GetValue()
+	}
+	if reqMember.CodechefId != nil {
+		member.CodechefId = reqMember.CodechefId.GetValue()
+	}
+	if reqMember.NowcoderId != nil {
+		member.NowcoderId = reqMember.NowcoderId.GetValue()
+	}
+	if reqMember.VjudgeId != nil {
+		member.VjudgeId = reqMember.VjudgeId.GetValue()
+	}
+	if reqMember.LeetcodeId != nil {
+		member.LeetcodeId = reqMember.LeetcodeId.GetValue()
+	}
+	if reqMember.LuoguId != nil {
+		member.LuoguId = reqMember.LuoguId.GetValue()
+	}
+	if reqMember.Email != nil {
+		member.Email = reqMember.Email.GetValue()
+	}
+	if reqMember.IsSubscribe != nil {
+		member.IsSubscribe = reqMember.IsSubscribe.GetValue()
+	}
 }

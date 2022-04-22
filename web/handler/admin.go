@@ -54,8 +54,8 @@ func AdminSet(ctx context.Context, req *idl.AdminSetRequest) (*idl.AdminSetRespo
 			return new(idl.AdminSetResponse), err
 		}
 	}
-	if req.OpenRegister != idl.Bool_Bool_Undefined {
-		viper.Set(util.OpenRegisterConfigName, req.OpenRegister)
+	if req.GetOpenRegister() != nil {
+		viper.Set(util.OpenRegisterConfigName, req.GetOpenRegister().GetValue())
 	}
 	return new(idl.AdminSetResponse), nil
 }
@@ -77,6 +77,6 @@ func AdminGet(ctx context.Context, req *idl.AdminGetRequest) (*idl.AdminGetRespo
 
 func CommonGet(ctx context.Context, req *idl.CommonGetRequest) (*idl.CommonGetResponse, error) {
 	resp := new(idl.CommonGetResponse)
-	resp.OpenRegister = viper.GetInt(util.OpenRegisterConfigName) == int(idl.Bool_Bool_True)
+	resp.OpenRegister = viper.GetBool(util.OpenRegisterConfigName)
 	return resp, nil
 }
