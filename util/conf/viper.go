@@ -22,7 +22,7 @@ func Viper() *viper.Viper {
 	once.Do(func() {
 		vp.SetConfigName("config.yaml")
 		vp.SetConfigType("yaml")
-		configPath := path.Dir(path.Dir(getFileName()))
+		configPath := path.Dir(path.Dir(path.Dir(getFileName())))
 		vp.AddConfigPath(configPath)
 		err := vp.ReadInConfig()
 		if err != nil {

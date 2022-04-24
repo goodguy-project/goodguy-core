@@ -3,6 +3,8 @@ package handler
 import (
 	"context"
 	"encoding/json"
+	"github.com/goodguy-project/goodguy-core/core/constant"
+	"github.com/goodguy-project/goodguy-core/core/web/token"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -10,29 +12,28 @@ import (
 	"github.com/goodguy-project/goodguy-core/idl"
 	"github.com/goodguy-project/goodguy-core/util"
 	"github.com/goodguy-project/goodguy-core/util/conf"
-	"github.com/goodguy-project/goodguy-core/web/token"
 )
 
 func doEmailConf(emailConf []*idl.EmailConf) error {
-	s := conf.Viper().GetString(util.EmailConfigName)
+	s := conf.Viper().GetString(constant.EmailConfigName)
 	var d []*idl.EmailConf
 	err := json.Unmarshal([]byte(s), &d)
 	if err != nil {
 		return err
 	}
-	for _, conf := range emailConf {
-		if conf.Op == idl.Op_Op_Add {
-			d = append(d, conf)
-		} else if conf.Op == idl.Op_Op_Update {
+	for _, c := range emailConf {
+		if c.Op == idl.Op_Op_Add {
+			d = append(d, c)
+		} else if c.Op == idl.Op_Op_Update {
 			for i, x := range d {
-				if x.Email == conf.Email {
-					d[i] = conf
+				if x.Email == c.Email {
+					d[i] = c
 					break
 				}
 			}
-		} else if conf.Op == idl.Op_Op_Delete {
+		} else if c.Op == idl.Op_Op_Delete {
 			for i, x := range d {
-				if x.Email == conf.Email {
+				if x.Email == c.Email {
 					y := d[0:i]
 					d = append(y, d[i+1:]...)
 					break
@@ -40,7 +41,7 @@ func doEmailConf(emailConf []*idl.EmailConf) error {
 			}
 		}
 	}
-	conf.Viper().Set(util.EmailConfigName, util.Json(d))
+	conf.Viper().Set(constant.EmailConfigName, util.Json(d))
 	return nil
 }
 
@@ -55,7 +56,7 @@ func AdminSet(ctx context.Context, req *idl.AdminSetRequest) (*idl.AdminSetRespo
 		}
 	}
 	if req.GetOpenRegister() != nil {
-		conf.Viper().Set(util.OpenRegisterConfigName, req.GetOpenRegister().GetValue())
+		conf.Viper().Set(constant.OpenRegisterConfigName, req.GetOpenRegister().GetValue())
 	}
 	return new(idl.AdminSetResponse), nil
 }
@@ -67,7 +68,7 @@ func AdminGet(ctx context.Context, req *idl.AdminGetRequest) (*idl.AdminGetRespo
 	}
 	var err error
 	resp := new(idl.AdminGetResponse)
-	emailConf := conf.Viper().GetString(util.EmailConfigName)
+	emailConf := conf.Viper().GetString(constant.EmailConfigName)
 	err = json.Unmarshal([]byte(emailConf), &resp.EmailConf)
 	if err != nil {
 		return resp, err
@@ -77,6 +78,6 @@ func AdminGet(ctx context.Context, req *idl.AdminGetRequest) (*idl.AdminGetRespo
 
 func CommonGet(ctx context.Context, req *idl.CommonGetRequest) (*idl.CommonGetResponse, error) {
 	resp := new(idl.CommonGetResponse)
-	resp.OpenRegister = conf.Viper().GetBool(util.OpenRegisterConfigName)
+	resp.OpenRegister = conf.Viper().GetBool(constant.OpenRegisterConfigName)
 	return resp, nil
 }

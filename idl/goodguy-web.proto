@@ -30,6 +30,11 @@ message EmailConf {
   Op op = 5;
 }
 
+message SubscribeStatus {
+  google.protobuf.BoolValue is_subscribe = 1; // 是否订阅
+  google.protobuf.UInt64Value email_bit = 2;
+}
+
 // 队员信息
 message Member {
   int64 id = 1;
@@ -48,7 +53,7 @@ message Member {
   google.protobuf.StringValue leetcode_id = 25; // LeetCode ID
   google.protobuf.StringValue luogu_id = 26; // Luogu ID
 
-  google.protobuf.BoolValue is_subscribe = 27; // required 是否邮件订阅
+  SubscribeStatus subscribe_status = 27;
 
   google.protobuf.StringValue email = 30;
 }

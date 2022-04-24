@@ -7,6 +7,11 @@ import (
 	"github.com/goodguy-project/goodguy-core/idl"
 )
 
+type SubscribeStatus struct {
+	IsSubscribe bool `gorm:"index"`
+	EmailBit    uint64
+}
+
 type Member struct {
 	gorm.Model
 	Sid          string `gorm:"uniqueIndex,size:128"`
@@ -23,10 +28,9 @@ type Member struct {
 	LeetcodeId   string `gorm:"index"`
 	LuoguId      string `gorm:"index"`
 	Email        string `gorm:"index"`
-	IsSubscribe  bool   `gorm:"index"`
 	IsAdmin      bool
 	Pwd          string
-	SubscribeBit int64 // TODO
+	SubscribeStatus
 }
 
 func (m *Member) ToProtoMember() *idl.Member {
@@ -46,7 +50,10 @@ func (m *Member) ToProtoMember() *idl.Member {
 		LeetcodeId:   wrapperspb.String(m.LeetcodeId),
 		LuoguId:      wrapperspb.String(m.LuoguId),
 		Email:        wrapperspb.String(m.Email),
-		IsSubscribe:  wrapperspb.Bool(m.IsSubscribe),
+		SubscribeStatus: &idl.SubscribeStatus{
+			IsSubscribe: wrapperspb.Bool(m.IsSubscribe),
+			EmailBit:    wrapperspb.UInt64(m.EmailBit),
+		},
 	}
 	return r
 }

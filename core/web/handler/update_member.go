@@ -2,13 +2,13 @@ package handler
 
 import (
 	"context"
+	"github.com/goodguy-project/goodguy-core/core/web/token"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
 	"github.com/goodguy-project/goodguy-core/idl"
 	"github.com/goodguy-project/goodguy-core/model"
-	"github.com/goodguy-project/goodguy-core/web/token"
 )
 
 func UpdateMember(ctx context.Context, req *idl.UpdateMemberRequest) (*idl.UpdateMemberResponse, error) {
@@ -68,7 +68,10 @@ func doUpdateMember(reqMember *idl.Member, member *model.Member) {
 	if reqMember.Email != nil {
 		member.Email = reqMember.Email.GetValue()
 	}
-	if reqMember.IsSubscribe != nil {
-		member.IsSubscribe = reqMember.IsSubscribe.GetValue()
+	if reqMember.SubscribeStatus.GetIsSubscribe() != nil {
+		member.IsSubscribe = reqMember.SubscribeStatus.IsSubscribe.GetValue()
+	}
+	if reqMember.SubscribeStatus.GetEmailBit() != nil {
+		member.EmailBit = reqMember.SubscribeStatus.GetEmailBit().GetValue()
 	}
 }

@@ -1,6 +1,7 @@
 package initialize
 
 import (
+	"github.com/goodguy-project/goodguy-core/core/constant"
 	"log"
 
 	"github.com/goodguy-project/goodguy-core/model"
@@ -30,12 +31,12 @@ func createAdmin() {
 }
 
 func defaultAdminSet() {
-	conf.Viper().Set(util.OpenRegisterConfigName, conf.Viper().GetBool(util.OpenRegisterConfigName))
-	emailConf := util.EmailConfigName
-	if conf.Viper().GetString(util.EmailConfigName) == "" {
+	conf.Viper().Set(constant.OpenRegisterConfigName, conf.Viper().GetBool(constant.OpenRegisterConfigName))
+	emailConf := constant.EmailConfigName
+	if conf.Viper().GetString(constant.EmailConfigName) == "" {
 		emailConf = "[]"
 	}
-	conf.Viper().Set(util.EmailConfigName, emailConf)
+	conf.Viper().Set(constant.EmailConfigName, emailConf)
 	err := conf.Viper().WriteConfig()
 	if err != nil {
 		panic(err)

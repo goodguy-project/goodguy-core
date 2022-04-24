@@ -10,9 +10,9 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
+	"github.com/goodguy-project/goodguy-core/core/web/handler"
 	"github.com/goodguy-project/goodguy-core/idl"
 	"github.com/goodguy-project/goodguy-core/util/conf"
-	"github.com/goodguy-project/goodguy-core/web/handler"
 )
 
 type server struct {

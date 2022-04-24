@@ -1,7 +1,8 @@
 admin:
-  email: admin.email
+  email: admin.subscribe
   open_register: true
   pwd: admin
+  subscribe: '[]'
 client:
   crawler:
     host: localhost

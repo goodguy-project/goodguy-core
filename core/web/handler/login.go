@@ -3,6 +3,7 @@ package handler
 import (
 	"context"
 	"fmt"
+	"github.com/goodguy-project/goodguy-core/core/web/token"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -10,7 +11,6 @@ import (
 	"github.com/goodguy-project/goodguy-core/idl"
 	"github.com/goodguy-project/goodguy-core/model"
 	"github.com/goodguy-project/goodguy-core/util"
-	"github.com/goodguy-project/goodguy-core/web/token"
 )
 
 func Login(ctx context.Context, req *idl.LoginRequest) (*idl.LoginResponse, error) {

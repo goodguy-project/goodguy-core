@@ -3,6 +3,8 @@ package handler
 import (
 	"context"
 	"fmt"
+	"github.com/goodguy-project/goodguy-core/core/constant"
+	"github.com/goodguy-project/goodguy-core/core/web/token"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -11,7 +13,6 @@ import (
 	"github.com/goodguy-project/goodguy-core/model"
 	"github.com/goodguy-project/goodguy-core/util"
 	"github.com/goodguy-project/goodguy-core/util/conf"
-	"github.com/goodguy-project/goodguy-core/web/token"
 )
 
 func Register(ctx context.Context, req *idl.RegisterRequest) (resp *idl.RegisterResponse, err error) {
@@ -20,7 +21,7 @@ func Register(ctx context.Context, req *idl.RegisterRequest) (resp *idl.Register
 			resp = new(idl.RegisterResponse)
 		}
 	}()
-	if !conf.Viper().GetBool(util.OpenRegisterConfigName) {
+	if !conf.Viper().GetBool(constant.OpenRegisterConfigName) {
 		return nil, status.Error(codes.Unavailable, "register is unavailable")
 	}
 	if req.Member == nil {
@@ -51,9 +52,12 @@ func Register(ctx context.Context, req *idl.RegisterRequest) (resp *idl.Register
 		LeetcodeId:   member.GetLeetcodeId().GetValue(),
 		LuoguId:      member.GetLuoguId().GetValue(),
 		Email:        member.GetEmail().GetValue(),
-		IsSubscribe:  false,
 		IsAdmin:      false,
 		Pwd:          util.Hashing(req.Pwd),
+		SubscribeStatus: model.SubscribeStatus{
+			IsSubscribe: false,
+			EmailBit:    0,
+		},
 	}).Error
 	if err != nil {
 		return nil, status.Error(codes.Unavailable, fmt.Sprintf("sid %s exists", req.GetMember().Sid))
