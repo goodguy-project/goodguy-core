@@ -4,12 +4,11 @@ import (
 	"context"
 	"log"
 
-	"github.com/spf13/viper"
-
 	"github.com/goodguy-project/goodguy-core/client/crawl"
 	"github.com/goodguy-project/goodguy-core/idl"
 	"github.com/goodguy-project/goodguy-core/model"
 	"github.com/goodguy-project/goodguy-core/util"
+	"github.com/goodguy-project/goodguy-core/util/conf"
 )
 
 func doEmailSubscribe(ctx context.Context, subscribe []*model.Member) error {
@@ -31,7 +30,7 @@ func gao() {
 		log.Printf("database error, err: %v\n", err)
 		return
 	}
-	buffer := viper.GetInt64("email.buffer")
+	buffer := conf.Viper().GetInt64("email.buffer")
 	if buffer <= 0 {
 		buffer = 100
 	}

@@ -6,12 +6,12 @@ import (
 	"log"
 	"net"
 
-	"github.com/spf13/viper"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
 	"github.com/goodguy-project/goodguy-core/idl"
+	"github.com/goodguy-project/goodguy-core/util/conf"
 	"github.com/goodguy-project/goodguy-core/web/handler"
 )
 
@@ -56,7 +56,7 @@ func (s *server) GetOfficialMember(context.Context, *idl.GetOfficialMemberReques
 }
 
 func Serve() {
-	listen, err := net.Listen("tcp", fmt.Sprintf("%s:%d", viper.GetString("web.host"), viper.GetInt("web.port")))
+	listen, err := net.Listen("tcp", fmt.Sprintf("%s:%d", conf.Viper().GetString("web.host"), conf.Viper().GetInt("web.port")))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}

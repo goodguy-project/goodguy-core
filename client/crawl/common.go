@@ -3,20 +3,20 @@ package crawl
 import (
 	"fmt"
 
-	"github.com/spf13/viper"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
 	"github.com/goodguy-project/goodguy-core/idl"
+	"github.com/goodguy-project/goodguy-core/util/conf"
 )
 
 var (
 	Client idl.CrawlServiceClient
 )
 
-func MustInitClient() {
+func init() {
 	conn, err := grpc.Dial(
-		fmt.Sprintf("%s:%d", viper.GetString("client.crawler.host"), viper.GetInt("client.crawler.port")),
+		fmt.Sprintf("%s:%d", conf.Viper().GetString("client.crawler.host"), conf.Viper().GetInt("client.crawler.port")),
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
 	)
 	if err != nil {

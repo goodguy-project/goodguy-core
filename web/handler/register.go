@@ -4,13 +4,13 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/spf13/viper"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
 	"github.com/goodguy-project/goodguy-core/idl"
 	"github.com/goodguy-project/goodguy-core/model"
 	"github.com/goodguy-project/goodguy-core/util"
+	"github.com/goodguy-project/goodguy-core/util/conf"
 	"github.com/goodguy-project/goodguy-core/web/token"
 )
 
@@ -20,7 +20,7 @@ func Register(ctx context.Context, req *idl.RegisterRequest) (resp *idl.Register
 			resp = new(idl.RegisterResponse)
 		}
 	}()
-	if !viper.GetBool(util.OpenRegisterConfigName) {
+	if !conf.Viper().GetBool(util.OpenRegisterConfigName) {
 		return nil, status.Error(codes.Unavailable, "register is unavailable")
 	}
 	if req.Member == nil {

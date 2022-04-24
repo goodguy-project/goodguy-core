@@ -4,17 +4,17 @@ import (
 	"context"
 	"encoding/json"
 
-	"github.com/spf13/viper"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
 	"github.com/goodguy-project/goodguy-core/idl"
 	"github.com/goodguy-project/goodguy-core/util"
+	"github.com/goodguy-project/goodguy-core/util/conf"
 	"github.com/goodguy-project/goodguy-core/web/token"
 )
 
 func doEmailConf(emailConf []*idl.EmailConf) error {
-	s := viper.GetString(util.EmailConfigName)
+	s := conf.Viper().GetString(util.EmailConfigName)
 	var d []*idl.EmailConf
 	err := json.Unmarshal([]byte(s), &d)
 	if err != nil {
@@ -40,7 +40,7 @@ func doEmailConf(emailConf []*idl.EmailConf) error {
 			}
 		}
 	}
-	viper.Set(util.EmailConfigName, util.Json(d))
+	conf.Viper().Set(util.EmailConfigName, util.Json(d))
 	return nil
 }
 
@@ -55,7 +55,7 @@ func AdminSet(ctx context.Context, req *idl.AdminSetRequest) (*idl.AdminSetRespo
 		}
 	}
 	if req.GetOpenRegister() != nil {
-		viper.Set(util.OpenRegisterConfigName, req.GetOpenRegister().GetValue())
+		conf.Viper().Set(util.OpenRegisterConfigName, req.GetOpenRegister().GetValue())
 	}
 	return new(idl.AdminSetResponse), nil
 }
@@ -67,7 +67,7 @@ func AdminGet(ctx context.Context, req *idl.AdminGetRequest) (*idl.AdminGetRespo
 	}
 	var err error
 	resp := new(idl.AdminGetResponse)
-	emailConf := viper.GetString(util.EmailConfigName)
+	emailConf := conf.Viper().GetString(util.EmailConfigName)
 	err = json.Unmarshal([]byte(emailConf), &resp.EmailConf)
 	if err != nil {
 		return resp, err
@@ -77,6 +77,6 @@ func AdminGet(ctx context.Context, req *idl.AdminGetRequest) (*idl.AdminGetRespo
 
 func CommonGet(ctx context.Context, req *idl.CommonGetRequest) (*idl.CommonGetResponse, error) {
 	resp := new(idl.CommonGetResponse)
-	resp.OpenRegister = viper.GetBool(util.OpenRegisterConfigName)
+	resp.OpenRegister = conf.Viper().GetBool(util.OpenRegisterConfigName)
 	return resp, nil
 }

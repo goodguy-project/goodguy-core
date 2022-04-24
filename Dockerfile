@@ -1,6 +1,6 @@
 FROM envoyproxy/envoy:v1.20-latest
 
-FROM golang
+FROM golang:1.18.1-bullseye
 
 COPY --from=0 /usr/local/bin/envoy /usr/local/bin
 

@@ -2,25 +2,11 @@ package initialize
 
 import (
 	"log"
-	"path"
 
-	"github.com/spf13/viper"
-
-	"github.com/goodguy-project/goodguy-core/client/crawl"
 	"github.com/goodguy-project/goodguy-core/model"
 	"github.com/goodguy-project/goodguy-core/util"
+	"github.com/goodguy-project/goodguy-core/util/conf"
 )
-
-func loadViper() {
-	viper.SetConfigName("config.yaml")
-	viper.SetConfigType("yaml")
-	configPath := path.Dir(path.Dir(util.GetFileName()))
-	viper.AddConfigPath(configPath)
-	err := viper.ReadInConfig()
-	if err != nil {
-		panic(err)
-	}
-}
 
 func createAdmin() {
 	var err error
@@ -35,7 +21,7 @@ func createAdmin() {
 		Sid:     "admin",
 		Name:    "管理员",
 		IsAdmin: true,
-		Pwd:     util.Hashing(viper.GetString("admin.pwd")),
+		Pwd:     util.Hashing(conf.Viper().GetString("admin.pwd")),
 	}
 	err = model.GetDB().Create(member).Error
 	if err != nil {
@@ -44,22 +30,23 @@ func createAdmin() {
 }
 
 func defaultAdminSet() {
-	viper.Set(util.OpenRegisterConfigName, viper.GetBool(util.OpenRegisterConfigName))
+	conf.Viper().Set(util.OpenRegisterConfigName, conf.Viper().GetBool(util.OpenRegisterConfigName))
 	emailConf := util.EmailConfigName
-	if viper.GetString(util.EmailConfigName) == "" {
+	if conf.Viper().GetString(util.EmailConfigName) == "" {
 		emailConf = "[]"
 	}
-	viper.Set(util.EmailConfigName, emailConf)
-	err := viper.WriteConfig()
+	conf.Viper().Set(util.EmailConfigName, emailConf)
+	err := conf.Viper().WriteConfig()
 	if err != nil {
 		panic(err)
 	}
 }
 
+func init() {
+	defaultAdminSet()
+}
+
 func MustInit() {
-	loadViper()
 	model.MustInit()
 	createAdmin()
-	defaultAdminSet()
-	crawl.MustInitClient()
 }

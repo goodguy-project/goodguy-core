@@ -3,11 +3,11 @@ package util
 import (
 	"log"
 
-	"github.com/spf13/viper"
+	"github.com/goodguy-project/goodguy-core/util/conf"
 )
 
 func Debug(format string, args ...interface{}) {
-	if viper.GetBool("debug") {
+	if conf.Viper().GetBool("debug") {
 		log.Printf(format, args...)
 	}
 }

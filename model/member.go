@@ -10,20 +10,20 @@ import (
 type Member struct {
 	gorm.Model
 	Sid          string `gorm:"uniqueIndex,size:128"`
-	Name         string `gorm:"index:member_name_index"`
+	Name         string `gorm:"index"`
 	School       string
 	Grade        int32
 	Clazz        string
 	IsOfficial   bool
-	CodeforcesId string `gorm:"index:member_codeforces_id_index"`
-	AtcoderId    string `gorm:"index:member_atcoder_id_index"`
-	CodechefId   string `gorm:"index:member_codechef_id_index"`
-	NowcoderId   string `gorm:"index:member_nowcoder_id_index"`
-	VjudgeId     string `gorm:"index:member_vjudge_id_index"`
-	LeetcodeId   string `gorm:"index:member_leetcode_id_index"`
-	LuoguId      string `gorm:"index:member_luogu_id_index"`
-	Email        string `gorm:"index:member_email_index"`
-	IsSubscribe  bool   `gorm:"index:member_is_subscribe_index"`
+	CodeforcesId string `gorm:"index"`
+	AtcoderId    string `gorm:"index"`
+	CodechefId   string `gorm:"index"`
+	NowcoderId   string `gorm:"index"`
+	VjudgeId     string `gorm:"index"`
+	LeetcodeId   string `gorm:"index"`
+	LuoguId      string `gorm:"index"`
+	Email        string `gorm:"index"`
+	IsSubscribe  bool   `gorm:"index"`
 	IsAdmin      bool
 	Pwd          string
 	SubscribeBit int64 // TODO

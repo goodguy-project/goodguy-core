@@ -18,7 +18,7 @@ func MustInit() {
 	if err != nil {
 		panic(err)
 	}
-	err = db.AutoMigrate(&Member{}, &MemberContestRecord{})
+	err = db.AutoMigrate(&Member{}, &MemberContestRecord{}, &SubscribeLog{})
 	if err != nil {
 		panic(err)
 	}

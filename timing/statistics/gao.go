@@ -4,12 +4,11 @@ import (
 	"context"
 	"log"
 
-	"github.com/spf13/viper"
-
 	"github.com/goodguy-project/goodguy-core/client/crawl"
 	"github.com/goodguy-project/goodguy-core/idl"
 	"github.com/goodguy-project/goodguy-core/model"
 	"github.com/goodguy-project/goodguy-core/util"
+	"github.com/goodguy-project/goodguy-core/util/conf"
 )
 
 func handle(sid, platform, handle string, t map[string]map[string]*idl.UserContestRecord) {
@@ -104,7 +103,7 @@ func gao() {
 		log.Printf("database error, err: %v\n", err)
 		return
 	}
-	buffer := viper.GetInt64("statistics.buffer")
+	buffer := conf.Viper().GetInt64("statistics.buffer")
 	if buffer <= 0 {
 		buffer = 100
 	}
