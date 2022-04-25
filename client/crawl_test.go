@@ -11,7 +11,7 @@ import (
 	"github.com/goodguy-project/goodguy-core/util"
 )
 
-func Test_GetRecentContest(t *testing.T) {
+func TestGetRecentContest(t *testing.T) {
 	initialize.MustInit()
 	t.Run("all", func(t *testing.T) {
 		resp, err := crawl.Client.MGetRecentContest(context.Background(), &idl.MGetRecentContestRequest{})
