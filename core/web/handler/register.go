@@ -3,12 +3,12 @@ package handler
 import (
 	"context"
 	"fmt"
-	"github.com/goodguy-project/goodguy-core/core/constant"
-	"github.com/goodguy-project/goodguy-core/core/web/token"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
+	"github.com/goodguy-project/goodguy-core/core/constant"
+	"github.com/goodguy-project/goodguy-core/core/web/token"
 	"github.com/goodguy-project/goodguy-core/idl"
 	"github.com/goodguy-project/goodguy-core/model"
 	"github.com/goodguy-project/goodguy-core/util"
@@ -54,6 +54,12 @@ func Register(ctx context.Context, req *idl.RegisterRequest) (resp *idl.Register
 		Email:        member.GetEmail().GetValue(),
 		IsAdmin:      false,
 		Pwd:          util.Hashing(req.Pwd),
+		SelfingMode:  false,
+		SMTP: model.SMTP{
+			Host: "",
+			Port: 0,
+			Pwd:  "",
+		},
 		SubscribeStatus: model.SubscribeStatus{
 			IsSubscribe: false,
 			EmailBit:    0,

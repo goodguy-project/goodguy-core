@@ -2,12 +2,11 @@ package subscribe
 
 import (
 	"context"
+	"log"
+
 	"github.com/goodguy-project/goodguy-core/client/crawl"
 	"github.com/goodguy-project/goodguy-core/core/oj"
 	"github.com/goodguy-project/goodguy-core/idl"
-	"log"
-	"sort"
-
 	"github.com/goodguy-project/goodguy-core/model"
 	"github.com/goodguy-project/goodguy-core/util/conf"
 )
@@ -20,18 +19,6 @@ func getSubscribeData(contests map[*oj.OnlineJudge][]*idl.RecentContest_ContestM
 		}
 	}
 	return r
-}
-
-func doEmailSubscribe(ctx context.Context, subscriber []*model.Member) error {
-	contests := doCrawl(ctx)
-	for _, m := range subscriber {
-		sd := getSubscribeData(contests, m.EmailBit)
-		sort.Slice(sd, func(i, j int) bool {
-			return sd[i].Timestamp < sd[j].Timestamp
-		})
-		// TODO: doSendEmail
-	}
-	return nil
 }
 
 func doCrawl(ctx context.Context) map[*oj.OnlineJudge][]*idl.RecentContest_ContestMessage {
@@ -72,6 +59,7 @@ func gao() {
 		if err != nil {
 			log.Printf("database error, err: %v\n", err)
 		}
-		_ = doEmailSubscribe(context.Background(), members)
+		contests := doCrawl(context.Background())
+		doEmailSubscribe(members, contests)
 	}
 }

@@ -3,11 +3,11 @@ package handler
 import (
 	"context"
 	"fmt"
-	"github.com/goodguy-project/goodguy-core/core/web/token"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
+	"github.com/goodguy-project/goodguy-core/core/web/token"
 	"github.com/goodguy-project/goodguy-core/idl"
 	"github.com/goodguy-project/goodguy-core/model"
 	"github.com/goodguy-project/goodguy-core/util"

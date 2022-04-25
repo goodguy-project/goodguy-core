@@ -35,6 +35,12 @@ message SubscribeStatus {
   google.protobuf.UInt64Value email_bit = 2;
 }
 
+message SMTP {
+  string host = 1;
+  int32 port = 2;
+  string pwd = 3;
+}
+
 // 队员信息
 message Member {
   int64 id = 1;
@@ -54,6 +60,8 @@ message Member {
   google.protobuf.StringValue luogu_id = 26; // Luogu ID
 
   SubscribeStatus subscribe_status = 27;
+  google.protobuf.BoolValue selfing_mode = 28; // 自交模式
+  SMTP smtp = 29;
 
   google.protobuf.StringValue email = 30;
 }

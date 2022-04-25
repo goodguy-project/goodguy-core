@@ -2,11 +2,11 @@ package handler
 
 import (
 	"context"
-	"github.com/goodguy-project/goodguy-core/core/web/token"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
+	"github.com/goodguy-project/goodguy-core/core/web/token"
 	"github.com/goodguy-project/goodguy-core/idl"
 	"github.com/goodguy-project/goodguy-core/model"
 )
@@ -73,5 +73,15 @@ func doUpdateMember(reqMember *idl.Member, member *model.Member) {
 	}
 	if reqMember.SubscribeStatus.GetEmailBit() != nil {
 		member.EmailBit = reqMember.SubscribeStatus.GetEmailBit().GetValue()
+	}
+	if reqMember.SelfingMode != nil {
+		member.SelfingMode = reqMember.SelfingMode.GetValue()
+	}
+	if reqMember.Smtp != nil {
+		member.SMTP = model.SMTP{
+			Host: reqMember.Smtp.Host,
+			Port: int(reqMember.Smtp.Port),
+			Pwd:  reqMember.Smtp.Pwd,
+		}
 	}
 }

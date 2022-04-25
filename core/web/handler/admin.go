@@ -3,12 +3,12 @@ package handler
 import (
 	"context"
 	"encoding/json"
-	"github.com/goodguy-project/goodguy-core/core/constant"
-	"github.com/goodguy-project/goodguy-core/core/web/token"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
+	"github.com/goodguy-project/goodguy-core/core/constant"
+	"github.com/goodguy-project/goodguy-core/core/web/token"
 	"github.com/goodguy-project/goodguy-core/idl"
 	"github.com/goodguy-project/goodguy-core/util"
 	"github.com/goodguy-project/goodguy-core/util/conf"

@@ -2,10 +2,10 @@ package statistics
 
 import (
 	"context"
-	"github.com/goodguy-project/goodguy-core/core/oj"
 	"log"
 
 	"github.com/goodguy-project/goodguy-core/client/crawl"
+	"github.com/goodguy-project/goodguy-core/core/oj"
 	"github.com/goodguy-project/goodguy-core/idl"
 	"github.com/goodguy-project/goodguy-core/model"
 	"github.com/goodguy-project/goodguy-core/util"

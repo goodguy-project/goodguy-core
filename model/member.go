@@ -12,6 +12,12 @@ type SubscribeStatus struct {
 	EmailBit    uint64
 }
 
+type SMTP struct {
+	Host string
+	Port int
+	Pwd  string
+}
+
 type Member struct {
 	gorm.Model
 	Sid          string `gorm:"uniqueIndex,size:128"`
@@ -30,6 +36,8 @@ type Member struct {
 	Email        string `gorm:"index"`
 	IsAdmin      bool
 	Pwd          string
+	SelfingMode  bool
+	SMTP
 	SubscribeStatus
 }
 
@@ -50,6 +58,12 @@ func (m *Member) ToProtoMember() *idl.Member {
 		LeetcodeId:   wrapperspb.String(m.LeetcodeId),
 		LuoguId:      wrapperspb.String(m.LuoguId),
 		Email:        wrapperspb.String(m.Email),
+		SelfingMode:  wrapperspb.Bool(m.SelfingMode),
+		Smtp: &idl.SMTP{
+			Host: m.Host,
+			Port: int32(m.Port),
+			Pwd:  m.Pwd,
+		},
 		SubscribeStatus: &idl.SubscribeStatus{
 			IsSubscribe: wrapperspb.Bool(m.IsSubscribe),
 			EmailBit:    wrapperspb.UInt64(m.EmailBit),
