@@ -1,5 +1,4 @@
 admin:
-  email: admin.subscribe
   open_register: true
   pwd: admin
   subscribe: '[]'
