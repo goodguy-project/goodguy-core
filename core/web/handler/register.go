@@ -61,8 +61,7 @@ func Register(ctx context.Context, req *idl.RegisterRequest) (resp *idl.Register
 			Pwd:  "",
 		},
 		SubscribeStatus: model.SubscribeStatus{
-			IsSubscribe: false,
-			EmailBit:    0,
+			Email: 0,
 		},
 	}).Error
 	if err != nil {

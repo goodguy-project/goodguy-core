@@ -68,11 +68,8 @@ func doUpdateMember(reqMember *idl.Member, member *model.Member) {
 	if reqMember.Email != nil {
 		member.Email = reqMember.Email.GetValue()
 	}
-	if reqMember.SubscribeStatus.GetIsSubscribe() != nil {
-		member.IsSubscribe = reqMember.SubscribeStatus.IsSubscribe.GetValue()
-	}
-	if reqMember.SubscribeStatus.GetEmailBit() != nil {
-		member.EmailBit = reqMember.SubscribeStatus.GetEmailBit().GetValue()
+	if reqMember.SubscribeStatus.GetEmail() != nil {
+		member.SubscribeStatus.Email = reqMember.SubscribeStatus.GetEmail().GetValue()
 	}
 	if reqMember.SelfingMode != nil {
 		member.SelfingMode = reqMember.SelfingMode.GetValue()

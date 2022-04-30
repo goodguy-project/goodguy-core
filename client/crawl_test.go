@@ -8,7 +8,7 @@ import (
 	"github.com/goodguy-project/goodguy-core/client/crawl"
 	"github.com/goodguy-project/goodguy-core/idl"
 	"github.com/goodguy-project/goodguy-core/initialize"
-	"github.com/goodguy-project/goodguy-core/util"
+	"github.com/goodguy-project/goodguy-core/util/jsonx"
 )
 
 func TestGetRecentContest(t *testing.T) {
@@ -18,6 +18,6 @@ func TestGetRecentContest(t *testing.T) {
 		if err != nil {
 			t.Errorf("MGetRecentContest.all failed, err: %v", err)
 		}
-		log.Printf("resp: %s", util.Json(resp))
+		log.Printf("resp: %s", jsonx.Json(resp))
 	})
 }

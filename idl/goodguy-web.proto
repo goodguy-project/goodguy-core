@@ -22,17 +22,8 @@ enum Op {
   Op_Add = 3;
 }
 
-message EmailConf {
-  string email = 1;
-  string smtp_host = 2;
-  int32 smtp_port = 3;
-  string pwd = 4;
-  Op op = 5;
-}
-
 message SubscribeStatus {
-  google.protobuf.BoolValue is_subscribe = 1; // 是否订阅
-  google.protobuf.UInt64Value email_bit = 2;
+  google.protobuf.UInt64Value email = 1;
 }
 
 message SMTP {
@@ -126,8 +117,6 @@ message CheckTokenResponse {
 }
 
 message AdminSetRequest {
-  repeated EmailConf email_conf = 1;
-
   google.protobuf.StringValue open_register = 2;
 }
 
@@ -138,7 +127,6 @@ message AdminGetRequest {
 }
 
 message AdminGetResponse {
-  repeated EmailConf email_conf = 1;
 }
 
 message CommonGetRequest {

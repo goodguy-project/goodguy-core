@@ -10,6 +10,7 @@ import (
 	"github.com/goodguy-project/goodguy-core/model"
 	"github.com/goodguy-project/goodguy-core/util"
 	"github.com/goodguy-project/goodguy-core/util/conf"
+	"github.com/goodguy-project/goodguy-core/util/jsonx"
 )
 
 func handle(sid, platform, handle string, t map[string]map[string]*idl.UserContestRecord) {
@@ -34,7 +35,7 @@ func handle(sid, platform, handle string, t map[string]map[string]*idl.UserConte
 		Rating:   record.Rating,
 		Length:   record.Length,
 	}
-	util.Debug("record: %s\n", util.Json(r))
+	util.Debug("record: %s\n", jsonx.Json(r))
 	if err := model.GetDB().Model(&model.MemberContestRecord{}).Where("Sid = ? and Platform = ? and handle = ?",
 		sid, platform, handle).Assign(r).FirstOrCreate(&model.MemberContestRecord{}).Error; err != nil {
 		log.Printf("update MemberContestRecord failed, err: %v", err)

@@ -13,16 +13,12 @@ var (
 	vp   = viper.New()
 )
 
-func getFileName() string {
-	_, fileName, _, _ := runtime.Caller(1)
-	return fileName
-}
-
 func Viper() *viper.Viper {
 	once.Do(func() {
+		_, fileName, _, _ := runtime.Caller(0)
 		vp.SetConfigName("config.yaml")
 		vp.SetConfigType("yaml")
-		configPath := path.Dir(path.Dir(path.Dir(getFileName())))
+		configPath := path.Dir(path.Dir(path.Dir(fileName)))
 		vp.AddConfigPath(configPath)
 		err := vp.ReadInConfig()
 		if err != nil {

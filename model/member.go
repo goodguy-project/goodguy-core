@@ -8,8 +8,7 @@ import (
 )
 
 type SubscribeStatus struct {
-	IsSubscribe bool `gorm:"index"`
-	EmailBit    uint64
+	Email uint64
 }
 
 type SMTP struct {
@@ -23,9 +22,9 @@ type Member struct {
 	Sid          string `gorm:"uniqueIndex,size:128"`
 	Name         string `gorm:"index"`
 	School       string
-	Grade        int32
+	Grade        int32 `gorm:"index"`
 	Clazz        string
-	IsOfficial   bool
+	IsOfficial   bool   `gorm:"index"`
 	CodeforcesId string `gorm:"index"`
 	AtcoderId    string `gorm:"index"`
 	CodechefId   string `gorm:"index"`
@@ -36,7 +35,7 @@ type Member struct {
 	Email        string `gorm:"index"`
 	IsAdmin      bool
 	Pwd          string
-	SelfingMode  bool
+	SelfingMode  bool `gorm:"index"`
 	SMTP
 	SubscribeStatus
 }
@@ -65,8 +64,7 @@ func (m *Member) ToProtoMember() *idl.Member {
 			Pwd:  m.Pwd,
 		},
 		SubscribeStatus: &idl.SubscribeStatus{
-			IsSubscribe: wrapperspb.Bool(m.IsSubscribe),
-			EmailBit:    wrapperspb.UInt64(m.EmailBit),
+			Email: wrapperspb.UInt64(m.SubscribeStatus.Email),
 		},
 	}
 	return r

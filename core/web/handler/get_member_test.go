@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/goodguy-project/goodguy-core/idl"
-	"github.com/goodguy-project/goodguy-core/util"
+	"github.com/goodguy-project/goodguy-core/util/jsonx"
 )
 
 func TestGetMember(t *testing.T) {
@@ -19,6 +19,6 @@ func TestGetMember(t *testing.T) {
 	}
 	log.Printf("size: %v\n", response.GetSize())
 	for i, r := range response.GetMember() {
-		log.Printf("member %d: %s", i+1, util.Json(r))
+		log.Printf("member %d: %s", i+1, jsonx.Json(r))
 	}
 }

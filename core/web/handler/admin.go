@@ -10,8 +10,8 @@ import (
 	"github.com/goodguy-project/goodguy-core/core/constant"
 	"github.com/goodguy-project/goodguy-core/core/web/token"
 	"github.com/goodguy-project/goodguy-core/idl"
-	"github.com/goodguy-project/goodguy-core/util"
 	"github.com/goodguy-project/goodguy-core/util/conf"
+	"github.com/goodguy-project/goodguy-core/util/jsonx"
 )
 
 func doEmailConf(emailConf []*idl.EmailConf) error {
@@ -41,7 +41,7 @@ func doEmailConf(emailConf []*idl.EmailConf) error {
 			}
 		}
 	}
-	conf.Viper().Set(constant.EmailConfigName, util.Json(d))
+	conf.Viper().Set(constant.EmailConfigName, jsonx.Json(d))
 	return nil
 }
 
@@ -49,11 +49,6 @@ func AdminSet(ctx context.Context, req *idl.AdminSetRequest) (*idl.AdminSetRespo
 	sid, ok := token.Auth(ctx)
 	if !ok || sid != "admin" {
 		return new(idl.AdminSetResponse), status.Error(codes.Unauthenticated, "auth failed")
-	}
-	if len(req.EmailConf) > 0 {
-		if err := doEmailConf(req.EmailConf); err != nil {
-			return new(idl.AdminSetResponse), err
-		}
 	}
 	if req.GetOpenRegister() != nil {
 		conf.Viper().Set(constant.OpenRegisterConfigName, req.GetOpenRegister().GetValue())
@@ -66,13 +61,7 @@ func AdminGet(ctx context.Context, req *idl.AdminGetRequest) (*idl.AdminGetRespo
 	if !ok || sid != "admin" {
 		return new(idl.AdminGetResponse), status.Error(codes.Unauthenticated, "auth failed")
 	}
-	var err error
 	resp := new(idl.AdminGetResponse)
-	emailConf := conf.Viper().GetString(constant.EmailConfigName)
-	err = json.Unmarshal([]byte(emailConf), &resp.EmailConf)
-	if err != nil {
-		return resp, err
-	}
 	return resp, nil
 }
 

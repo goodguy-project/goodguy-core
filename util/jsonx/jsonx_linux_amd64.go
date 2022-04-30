@@ -1,4 +1,4 @@
-package util
+package jsonx
 
 import (
 	"log"
@@ -14,5 +14,12 @@ func init() {
 			return ""
 		}
 		return string(s)
+	}
+	Marshal = func(x interface{}) (string, error) {
+		s, err := sonic.Marshal(x)
+		return string(s), err
+	}
+	Unmarshal = func(b []byte, d interface{}) error {
+		return sonic.Unmarshal(b, d)
 	}
 }

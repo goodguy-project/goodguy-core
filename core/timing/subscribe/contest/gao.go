@@ -1,4 +1,4 @@
-package subscribe
+package contest
 
 import (
 	"context"
@@ -11,11 +11,16 @@ import (
 	"github.com/goodguy-project/goodguy-core/util/conf"
 )
 
-func getSubscribeData(contests map[*oj.OnlineJudge][]*idl.RecentContest_ContestMessage, bit uint64) []*idl.RecentContest_ContestMessage {
-	var r []*idl.RecentContest_ContestMessage
+func getSubscribeContest(contests map[*oj.OnlineJudge][]*idl.RecentContest_ContestMessage, bit uint64) []*model.Contest {
+	var r []*model.Contest
 	for onlineJudge, contest := range contests {
 		if onlineJudge.Contain(bit) {
-			r = append(r, contest...)
+			for _, c := range contest {
+				r = append(r, &model.Contest{
+					ContestMessage: c,
+					OnlineJudge:    onlineJudge,
+				})
+			}
 		}
 	}
 	return r
@@ -42,7 +47,7 @@ func gao() {
 	var err error
 	db := model.GetDB()
 	count := int64(0)
-	err = db.Model(&model.Member{}).Where("is_subscribe = 1").Count(&count).Error
+	err = db.Model(&model.Member{}).Count(&count).Error
 	if err != nil {
 		log.Printf("database error, err: %v\n", err)
 		return
@@ -54,12 +59,12 @@ func gao() {
 	times := (count + buffer - 1) / buffer
 	for no := int64(0); no < times; no += 1 {
 		var members []*model.Member
-		err = db.Model(&model.Member{}).Where("is_subscribe = 1").Offset(int(buffer * no)).Limit(int(buffer)).
+		err = db.Model(&model.Member{}).Offset(int(buffer * no)).Limit(int(buffer)).
 			Find(&members).Error
 		if err != nil {
 			log.Printf("database error, err: %v\n", err)
 		}
 		contests := doCrawl(context.Background())
-		doEmailSubscribe(members, contests)
+		doEmail(members, contests)
 	}
 }
