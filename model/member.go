@@ -35,7 +35,8 @@ type Member struct {
 	Email        string `gorm:"index"`
 	IsAdmin      bool
 	Pwd          string
-	SelfingMode  bool `gorm:"index"`
+	SelfingMode  bool   `gorm:"index"`
+	TeamName     string `gorm:"team_name"`
 	SMTP
 	SubscribeStatus
 }
@@ -49,6 +50,7 @@ func (m *Member) ToProtoMember() *idl.Member {
 		Grade:        wrapperspb.Int32(m.Grade),
 		Clazz:        wrapperspb.String(m.Clazz),
 		IsOfficial:   wrapperspb.Bool(m.IsOfficial),
+		TeamName:     wrapperspb.String(m.TeamName),
 		CodeforcesId: wrapperspb.String(m.CodeforcesId),
 		AtcoderId:    wrapperspb.String(m.AtcoderId),
 		CodechefId:   wrapperspb.String(m.CodechefId),

@@ -2,8 +2,6 @@ package model
 
 import (
 	"gorm.io/gorm"
-
-	"github.com/goodguy-project/goodguy-core/idl"
 )
 
 type SubscribeLogStatus int32
@@ -14,9 +12,17 @@ const (
 	SubscribeLogStatus_Failed SubscribeLogStatus = 3
 )
 
+type SingleContestMsg struct {
+	Name      string
+	Url       string
+	Timestamp int64
+	Duration  int32
+}
+
 type ContestMsg struct {
-	Contest  []*idl.RecentContest_ContestMessage
-	Member   *Member
+	Contest  []*SingleContestMsg `gorm:"type:text[]"`
+	Member   *Member             `gorm:"foreignKey:ID;references:MemberId;"`
+	MemberId uint
 	Platform string
 }
 
@@ -28,6 +34,6 @@ type SubscribeLog struct {
 	Bit           uint64
 	SubscribeTime int64
 	Status        SubscribeLogStatus
-	HashTag       string `gorm:"uniqueIndex"`
-	ContestMsg    *ContestMsg
+	HashTag       string      `gorm:"uniqueIndex,size:100"`
+	ContestMsg    *ContestMsg `gorm:"type:text"`
 }

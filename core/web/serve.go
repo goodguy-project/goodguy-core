@@ -35,16 +35,8 @@ func (s *server) UpdateMember(ctx context.Context, req *idl.UpdateMemberRequest)
 	return handler.UpdateMember(ctx, req)
 }
 
-func (s *server) AdminSet(ctx context.Context, req *idl.AdminSetRequest) (*idl.AdminSetResponse, error) {
-	return handler.AdminSet(ctx, req)
-}
-
-func (s *server) AdminGet(ctx context.Context, req *idl.AdminGetRequest) (*idl.AdminGetResponse, error) {
-	return handler.AdminGet(ctx, req)
-}
-
-func (s *server) CommonGet(ctx context.Context, req *idl.CommonGetRequest) (*idl.CommonGetResponse, error) {
-	return handler.CommonGet(ctx, req)
+func (s *server) OpenRegister(ctx context.Context, req *idl.OpenRegisterRequest) (*idl.OpenRegisterResponse, error) {
+	return handler.OpenRegister(ctx, req)
 }
 
 func (s *server) CheckToken(ctx context.Context, req *idl.CheckTokenRequest) (*idl.CheckTokenResponse, error) {

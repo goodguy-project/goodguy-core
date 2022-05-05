@@ -9,7 +9,8 @@ build:
 	docker build -t goodguy-core .
 
 run:
-	docker run  -it --name="goodguy-core" --network=container:goodguy_mysql --restart=always goodguy-core
+	-docker network create goodguy-net
+	docker run -dit --name="goodguy-core" -p 9853:9887 --restart=always --network goodguy-net --network-alias goodguy-core goodguy-core
 
 clean:
 	-docker stop $$(docker ps -a -q --filter="name=goodguy-core")

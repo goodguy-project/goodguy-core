@@ -41,6 +41,7 @@ message Member {
   google.protobuf.Int32Value grade = 6; // 年级
   google.protobuf.StringValue clazz = 7; // 班级
   google.protobuf.BoolValue is_official = 9; // 是否校队成员
+  google.protobuf.StringValue team_name = 10; // 队伍名字
 
   google.protobuf.StringValue codeforces_id = 20; // Codeforces ID
   google.protobuf.StringValue atcoder_id = 21; // AtCoder ID
@@ -116,24 +117,12 @@ message CheckTokenResponse {
   string sid = 2;
 }
 
-message AdminSetRequest {
-  google.protobuf.StringValue open_register = 2;
+message OpenRegisterRequest {
+  google.protobuf.BoolValue open_register = 1;
 }
 
-message AdminSetResponse {
-}
-
-message AdminGetRequest {
-}
-
-message AdminGetResponse {
-}
-
-message CommonGetRequest {
-}
-
-message CommonGetResponse {
-  bool open_register = 1; // 是否开放注册
+message OpenRegisterResponse {
+  google.protobuf.BoolValue open_register = 1;
 }
 
 service GoodguyWebService {
@@ -145,7 +134,5 @@ service GoodguyWebService {
   rpc Register (RegisterRequest) returns (RegisterResponse);
   rpc UpdateMember (UpdateMemberRequest) returns (UpdateMemberResponse);
 
-  rpc AdminSet (AdminSetRequest) returns (AdminSetResponse);
-  rpc AdminGet (AdminGetRequest) returns (AdminGetResponse);
-  rpc CommonGet (CommonGetRequest) returns (CommonGetResponse);
+  rpc OpenRegister (OpenRegisterRequest) returns (OpenRegisterResponse);
 }

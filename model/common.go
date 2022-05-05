@@ -1,6 +1,7 @@
 package model
 
 import (
+	"fmt"
 	"sync"
 
 	"gorm.io/driver/mysql"
@@ -15,10 +16,16 @@ var (
 func MustInit() {
 	once.Do(func() {
 		var err error
-		const dsn = "root:goodguy@tcp(127.0.0.1:3306)/goodguy_core?charset=utf8mb4&parseTime=True&loc=Local"
+		const dsn = "root:goodguy@tcp(goodguy-mysql:3306)/goodguy_core?charset=utf8mb4&parseTime=True&loc=Local"
 		db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 		if err != nil {
-			panic(err)
+			var err2 error
+			const hystrix = "root:goodguy@tcp(127.0.0.1:9854)/goodguy_core?charset=utf8mb4&parseTime=True&loc=Local"
+			db, err2 = gorm.Open(mysql.Open(hystrix), &gorm.Config{})
+			if err2 != nil {
+				fmt.Printf("err2: %v", err)
+				panic(err)
+			}
 		}
 		err = db.AutoMigrate(&Member{}, &MemberContestRecord{}, &SubscribeLog{})
 		if err != nil {
