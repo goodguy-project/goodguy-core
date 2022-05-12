@@ -27,11 +27,18 @@ func Register(ctx context.Context, req *idl.RegisterRequest) (resp *idl.Register
 	if req.Member == nil {
 		return nil, status.Error(codes.DataLoss, "member is empty")
 	}
-	if req.GetMember().GetSid().GetValue() == "" {
+	sid := req.GetMember().GetSid().GetValue()
+	if sid == "" {
 		return nil, status.Error(codes.DataLoss, "sid is empty")
 	}
+	for _, t := range req.GetMember().GetSid().GetValue() {
+		if ('a' <= t && t <= 'z') || ('A' <= t && t <= 'Z') || ('0' <= t && t <= '9') || t == '_' {
+			continue
+		}
+		return nil, status.Error(codes.Unavailable, fmt.Sprintf("sid %s is not available", sid))
+	}
 	if len(req.GetMember().GetSid().GetValue()) > 50 {
-		return nil, status.Error(codes.Unavailable, fmt.Sprintf("sid %s is too long", req.GetMember().Sid))
+		return nil, status.Error(codes.Unavailable, fmt.Sprintf("sid %s is too long", sid))
 	}
 	if req.Pwd == "" {
 		return nil, status.Error(codes.DataLoss, "pwd is empty")

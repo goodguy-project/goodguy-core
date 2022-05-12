@@ -22,25 +22,26 @@ type Member struct {
 	Sid          string `gorm:"uniqueIndex,size:128"`
 	Name         string `gorm:"index"`
 	School       string
-	Grade        int32 `gorm:"index"`
+	Grade        int32
 	Clazz        string
-	IsOfficial   bool   `gorm:"index"`
-	CodeforcesId string `gorm:"index"`
-	AtcoderId    string `gorm:"index"`
-	CodechefId   string `gorm:"index"`
-	NowcoderId   string `gorm:"index"`
-	VjudgeId     string `gorm:"index"`
-	LeetcodeId   string `gorm:"index"`
-	LuoguId      string `gorm:"index"`
-	Email        string `gorm:"index"`
+	IsOfficial   bool `gorm:"index"`
+	CodeforcesId string
+	AtcoderId    string
+	CodechefId   string
+	NowcoderId   string
+	VjudgeId     string
+	LeetcodeId   string
+	LuoguId      string
+	Email        string
 	IsAdmin      bool
 	Pwd          string
-	SelfingMode  bool   `gorm:"index"`
-	TeamName     string `gorm:"team_name"`
+	SelfingMode  bool
+	TeamName     string `gorm:"index"`
 	SMTP
 	SubscribeStatus
 }
 
+// ToProtoMember 只能传可以公开的信息
 func (m *Member) ToProtoMember() *idl.Member {
 	r := &idl.Member{
 		Id:           int64(m.ID),
@@ -58,16 +59,6 @@ func (m *Member) ToProtoMember() *idl.Member {
 		VjudgeId:     wrapperspb.String(m.VjudgeId),
 		LeetcodeId:   wrapperspb.String(m.LeetcodeId),
 		LuoguId:      wrapperspb.String(m.LuoguId),
-		Email:        wrapperspb.String(m.Email),
-		SelfingMode:  wrapperspb.Bool(m.SelfingMode),
-		Smtp: &idl.SMTP{
-			Host: m.Host,
-			Port: int32(m.Port),
-			Pwd:  m.Pwd,
-		},
-		SubscribeStatus: &idl.SubscribeStatus{
-			Email: wrapperspb.UInt64(m.SubscribeStatus.Email),
-		},
 	}
 	return r
 }

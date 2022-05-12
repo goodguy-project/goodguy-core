@@ -10,7 +10,7 @@ build:
 
 run:
 	-docker network create goodguy-net
-	docker run -dit --name="goodguy-core" -p 9853:9887 --restart=always --network goodguy-net --network-alias goodguy-core goodguy-core
+	docker run -dit --name="goodguy-core" -p 9853:9888 -p 9855:9887 --restart=always --network goodguy-net --network-alias goodguy-core goodguy-core
 
 clean:
 	-docker stop $$(docker ps -a -q --filter="name=goodguy-core")
