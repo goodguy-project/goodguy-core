@@ -3,6 +3,7 @@ package model
 import (
 	"fmt"
 	"sync"
+	"time"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -15,6 +16,7 @@ var (
 
 func MustInit() {
 	once.Do(func() {
+		time.Sleep(time.Second * 10)
 		var err error
 		const dsn = "root:goodguy@tcp(goodguy-mysql:3306)/goodguy_core?charset=utf8mb4&parseTime=True&loc=Local"
 		db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})

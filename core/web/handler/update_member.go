@@ -9,6 +9,7 @@ import (
 	"github.com/goodguy-project/goodguy-core/core/web/token"
 	"github.com/goodguy-project/goodguy-core/idl"
 	"github.com/goodguy-project/goodguy-core/model"
+	"github.com/goodguy-project/goodguy-core/util"
 )
 
 func UpdateMember(ctx context.Context, req *idl.UpdateMemberRequest) (*idl.UpdateMemberResponse, error) {
@@ -29,7 +30,13 @@ func UpdateMember(ctx context.Context, req *idl.UpdateMemberRequest) (*idl.Updat
 	if err != nil {
 		return new(idl.UpdateMemberResponse), status.Error(codes.Internal, "database error")
 	}
+	if sid == member.Sid && util.Hashing(req.Pwd) != member.Pwd {
+		return new(idl.UpdateMemberResponse), status.Error(codes.Unauthenticated, "The password is incorrect")
+	}
 	doUpdateMember(isAdmin, req.Member, member)
+	if req.NewPwd != nil {
+		member.Pwd = util.Hashing(req.NewPwd.GetValue())
+	}
 	db = model.GetDB()
 	db.Save(member)
 	return new(idl.UpdateMemberResponse), nil

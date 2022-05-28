@@ -103,6 +103,8 @@ message RegisterResponse {
 
 message UpdateMemberRequest {
   Member member = 1;
+  string pwd = 2;
+  google.protobuf.StringValue new_pwd = 3;
 }
 
 message UpdateMemberResponse {
