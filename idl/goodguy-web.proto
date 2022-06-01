@@ -76,6 +76,7 @@ message GetMemberRequest {
 
   repeated int64 id = 4;
   repeated string sid = 5;
+  repeated bool is_official = 6;
 }
 
 message GetMemberResponse {

@@ -14,7 +14,7 @@ func GetMember(ctx context.Context, req *idl.GetMemberRequest) (*idl.GetMemberRe
 	if pageNo <= 0 {
 		pageNo = 1
 	}
-	if pageSize <= 0 || pageSize > 50 {
+	if pageSize <= 0 || pageSize > 500 {
 		pageSize = 10
 	}
 	db := model.GetDB().Model(&model.Member{})
@@ -23,6 +23,9 @@ func GetMember(ctx context.Context, req *idl.GetMemberRequest) (*idl.GetMemberRe
 	}
 	if len(req.Sid) > 0 {
 		db = db.Where("sid IN ?", req.Sid)
+	}
+	if len(req.IsOfficial) > 0 {
+		db = db.Where("is_official IN ?", req.IsOfficial)
 	}
 	var members []*model.Member
 	db.Order("id desc").Offset(int(pageSize * (pageNo - 1))).Limit(int(pageSize)).Find(&members)

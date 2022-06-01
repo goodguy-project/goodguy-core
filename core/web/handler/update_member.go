@@ -30,7 +30,7 @@ func UpdateMember(ctx context.Context, req *idl.UpdateMemberRequest) (*idl.Updat
 	if err != nil {
 		return new(idl.UpdateMemberResponse), status.Error(codes.Internal, "database error")
 	}
-	if sid == member.Sid && util.Hashing(req.Pwd) != member.Pwd {
+	if ((!isAdmin && sid == member.Sid) || req.GetMember().GetSid().GetValue() == "admin") && util.Hashing(req.Pwd) != member.Pwd {
 		return new(idl.UpdateMemberResponse), status.Error(codes.Unauthenticated, "The password is incorrect")
 	}
 	doUpdateMember(isAdmin, req.Member, member)
